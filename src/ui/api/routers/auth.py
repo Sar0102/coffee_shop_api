@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from starlette.responses import JSONResponse
 
 from src.application.dto.auth import AccessTokenOUTDTO, LoginDTO, SignUpDTO, SignUpResponseDTO, TokenPairDTO, VerifyDTO

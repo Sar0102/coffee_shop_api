@@ -6,6 +6,7 @@ class MailSettings(BaseSettings):
     SMTP/MailDev configuration.
     In dev, MailDev listens on host: maildev, smtp: 1025, webui: 1080.
     """
+
     smtp_host: str = "maildev"
     smtp_port: int = 1025
     smtp_username: str | None = None

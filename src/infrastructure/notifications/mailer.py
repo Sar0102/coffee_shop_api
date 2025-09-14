@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 import email.utils
 from email.mime.text import MIMEText
 from typing import Final
@@ -6,6 +7,7 @@ from typing import Final
 import aiosmtplib
 
 from src.configs.mail_settings import MailSettings
+
 
 class AioSMTPMailer:
     """
@@ -45,6 +47,7 @@ class AioSMTPMailer:
             start_tls=self._cfg.smtp_starttls,
             timeout=10.0,
         )
+
 
 async def send_verification_code_email(to_email: str, code: str) -> None:
     """

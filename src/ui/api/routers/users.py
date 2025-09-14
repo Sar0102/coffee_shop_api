@@ -2,14 +2,12 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, Query
 
-from src.application.dto.user import UserUpdateDTO
-from src.application.dto.user import UserOutDTO
+from src.application.dto.user import UserOutDTO, UserUpdateDTO
 from src.application.services.user_service import UserService
 from src.domain.value_objects.user_role import UserRole
 from src.infrastructure.db.uow import SqlAlchemyUnitOfWork
-from src.ui.api.deps import get_claims, get_subject_id
+from src.ui.api.deps import get_claims, get_subject_id, require_role
 from src.ui.api.responses import GENERIC_ERROR_RESPONSES
-from src.ui.api.deps import require_role
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
@@ -41,9 +39,9 @@ async def me(subject_id: Annotated[int, Depends(get_subject_id)]) -> UserOutDTO:
     description="Returns a paginated list of users. Admin only.",
 )
 async def list_users(
-        claims: Annotated[dict, Depends(get_claims)],
-        offset: int = Query(0, ge=0),
-        limit: int = Query(50, gt=0, le=200),
+    claims: Annotated[dict, Depends(get_claims)],
+    offset: int = Query(0, ge=0),
+    limit: int = Query(50, gt=0, le=200),
 ) -> list[UserOutDTO]:
     """Return users page (admin only)."""
     require_role(claims, UserRole.ADMIN)

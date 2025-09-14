@@ -3,7 +3,7 @@ import datetime as dt
 from typing import Final
 
 from celery.utils.log import get_task_logger
-from sqlalchemy import delete, and_
+from sqlalchemy import and_, delete
 
 from src.configs.celery_beat import celery_beat_settings
 from src.infrastructure.db.base import async_session_maker

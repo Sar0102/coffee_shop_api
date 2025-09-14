@@ -1,6 +1,6 @@
 from collections.abc import Sequence
 
-from sqlalchemy import insert, select, update, delete
+from sqlalchemy import delete, insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.domain.entities.user import UserEntity

@@ -5,6 +5,7 @@ class CeleryBeatSettings(BaseSettings):
     """
     Celery Beat configuration settings.
     """
+
     UNVERIFIED_TTL_DAYS: int = 2
 
     model_config = SettingsConfigDict(

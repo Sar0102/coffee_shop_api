@@ -2,7 +2,7 @@ from typing import Annotated
 
 from fastapi import Depends, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from jwt import InvalidTokenError, PyJWTError, ExpiredSignatureError
+from jwt import ExpiredSignatureError, InvalidTokenError, PyJWTError
 from starlette import status
 
 from src.domain.value_objects.user_role import UserRole
