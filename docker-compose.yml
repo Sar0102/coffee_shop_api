@@ -1,0 +1,70 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: run
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+      - maildev
+    ports:
+      - "${SERVER_PORT:-8000}:8000"
+    entrypoint: ./start_app.sh
+    volumes:
+      - .:/home/appuser/app/
+    restart: unless-stopped
+
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: run
+    env_file:
+      - .env
+    depends_on:
+      - api
+      - redis
+      - db
+    entrypoint: ./start_celery.sh
+    volumes:
+      - .:/home/appuser/app/
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: "${DB_NAME:-postgres}"
+      POSTGRES_USER: "${DB_USER:-postgres}"
+      POSTGRES_PASSWORD: "${DB_PASS:-postgres}"
+    ports:
+      - "5435:5432"
+    volumes:
+      - "pgdata:/var/lib/postgresql-16/data"
+    restart: unless-stopped
+
+  redis:
+    env_file:
+      - .env
+    image: redis:7-alpine
+    ports:
+      - "16379:6379"
+    restart: unless-stopped
+
+  maildev:
+    env_file:
+      - .env
+    image: maildev/maildev
+    ports:
+      - "1080:1080"   # Web UI
+      - "1025:1025"   # SMTP
+    restart: unless-stopped
+
+volumes:
+  pgdata:
